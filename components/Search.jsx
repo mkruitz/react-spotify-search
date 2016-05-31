@@ -17,9 +17,17 @@ export default class Search extends React.Component {
     }
 
     search() {
-        this.props.store.dispatch({
+        const store = this.props.store;
+        store.dispatch({
             action: 'SEARCH',
-            query: this.state.query
+            query: this.state.query,
+            callback: function(results) {
+                console.log('results', results);
+                store.dispatch({
+                    action: 'SET_RESULTS',
+                    albums: JSON.parse(results).albums.items
+                });
+            }
         });
     }
 
